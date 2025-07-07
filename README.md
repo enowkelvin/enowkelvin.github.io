@@ -9,7 +9,7 @@ Three questions will guide the future marketing program:
  2. Why would casual riders buy Cyclistic annual memberships?
  3. How can Cyclistic use digital media to influence casual riders to become members
 
-the first thing i did was to install and load the packages needed
+The first thing i did was to install and load the packages needed
 install.packages("tidyverse")
 install.packages("lubridate")
 install.packages("ggplot2")
@@ -55,18 +55,18 @@ str(q1_2020)
 #-- we have to convert ride_id and rideable_id into character so that they can fit in nicely into one column
 
 q1_2019<- mutate(q1_2019,ride_id=as.character(ride_id),
-                 rideable_type=as.character(rideable_type))
-View(q1_2019)
+                 rideable_type=as.character(rideable_type)).
+View(q1_2019) #this is to see the result of the above code.
 
 
 # Stack individual quarter's data frames into one big data frame
-all_trips<- bind_rows(q1_2019,q1_2020)
-View(all_trips)
+all_trips<- bind_rows(q1_2019,q1_2020) .
+View(all_trips)#this is to see the result of the above code.
 
 # Remove lat, long, birthyear, and gender fields as this data was dropped beginning in 2020
 all_trips<- all_trips %>% 
-  select(-c(start_lat,start_lng,end_lat,end_lng,birthyear,gender,"tripduration"))
-View(all_trips)
+  select(-c(start_lat,start_lng,end_lat,end_lng,birthyear,gender,"tripduration")).
+View(all_trips) #this is to see the result of the above code.
 
 # STEP 3: CLEAN UP AND ADD DATA TO PREPARE FOR ANALYSIS;
 # Inspect the new table that has been created
@@ -77,7 +77,7 @@ head(all_trips)  #See the first 6 rows of data frame.  Also tail(all_trips)
 str(all_trips)  #See list of columns and data types (numeric, character, etc)
 summary(all_trips)  #Statistical summary of data. Mainly for numerics
 
-# There are a few problems we will need to fix:
+# There are a few problems i needed to fix:
 # (1) In the "member_casual" column, there are two names for members ("member" and "Subscriber") and two names for casual riders ("Customer" and "casual"). We will need to consolidate that from four to two labels.
 # (2) The data can only be aggregated at the ride-level, which is too granular. We will want to add some additional columns of data -- such as day, month, year -- that provide additional opportunities to aggregate the data.
 # (3) We will want to add a calculated field for length of ride since the 2020Q1 data did not have the "tripduration" column. We will add "ride_length" to the entire dataframe for consistency.
@@ -104,12 +104,12 @@ all_trips$date<- as.Date(all_trips$started_at)
 all_trips$month<- format(as.Date(all_trips$date),"%m")
 all_trips$day<- format(as.Date(all_trips$date),"%d")
 all_trips$year<- format(as.Date(all_trips$date),"%Y")
-all_trips$day_of_week<- format(as.Date(all_trips$date),"%A")
-View(all_trips)
+all_trips$day_of_week<- format(as.Date(all_trips$date),"%A").
+View(all_trips) #this is to see the result of the above code.
 
 # Add a "ride_length" calculation to all_trips (in seconds)
-all_trips$ride_length<- difftime(all_trips$ended_at,all_trips$started_at)
-View(all_trips)
+all_trips$ride_length<- difftime(all_trips$ended_at,all_trips$started_at).
+View(all_trips) #this is to see the result of the above code.
 
 # Inspect the structure of the columns
 str(all_trips)
