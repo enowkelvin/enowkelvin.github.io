@@ -51,18 +51,18 @@ View(q1_2019)
 * (#inspect the two dataframes and look for incongruencies
 str(q1_2019)
 str(q1_2020)
-*(#-- we have to convert ride_id and rideable_id into character so that they can fit in nicely into one column)
+#-- we have to convert ride_id and rideable_id into character so that they can fit in nicely into one column)
 
 q1_2019<- mutate(q1_2019,ride_id=as.character(ride_id),
                  rideable_type=as.character(rideable_type)).
 View(q1_2019) #this is to see the result of the above code.
 
 
-# Stack individual quarter's data frames into one big data frame
+## Stack individual quarter's data frames into one big data frame.
 all_trips<- bind_rows(q1_2019,q1_2020) .
 View(all_trips)#this is to see the result of the above code.
 
-# Remove lat, long, birthyear, and gender fields as this data was dropped beginning in 2020
+## Remove lat, long, birthyear, and gender fields as this data was dropped beginning in 2020.
 all_trips<- all_trips %>% 
   select(-c(start_lat,start_lng,end_lat,end_lng,birthyear,gender,"tripduration")).
 View(all_trips) #this is to see the result of the above code.
@@ -81,13 +81,13 @@ summary(all_trips)  #Statistical summary of data. Mainly for numerics
 (2) The data can only be aggregated at the ride-level, which is too granular. We will want to add some additional columns of data -- such as day, month, year -- that provide additional opportunities to aggregate the data. (3) We will want to add a calculated field for length of ride since the 2020Q1 data did not have the "tripduration" column. We will add "ride_length" to the entire dataframe for consistency.
 (4) There are some rides where tripduration shows up as negative, including several hundred rides where Divvy took bikes out of circulation for Quality Control reasons. We will want to delete these rides.
 
-*(# In the "member_casual" column, replace "Subscriber" with "member" and "Customer" with "casual"
-# Before 2020, Divvy used different labels for these two types of riders ... we will want to make our dataframe consistent with their current nomenclature
-# N.B.: "Level" is a special property of a column that is retained even if a subset does not contain any values from a specific level
-# Begin by seeing how many observations fall under each usertype
+### In the "member_casual" column, replace "Subscriber" with "member" and "Customer" with "casual".
+### Before 2020, Divvy used different labels for these two types of riders ... we will want to make our dataframe consistent with their current nomenclature.
+### N.B.: "Level" is a special property of a column that is retained even if a subset does not contain any values from a specific level,
+### Begin by seeing how many observations fall under each usertype.
 table(all_trips$member_casual))
 
-* Reassign to the desired values (we will go with the current 2020 labels)
+### Reassign to the desired values (we will go with the current 2020 labels).
 all_trips<- all_trips %>% 
   mutate(member_casual=recode(member_casual,
                                            "Subscriber"="member",
@@ -105,27 +105,27 @@ all_trips$year<- format(as.Date(all_trips$date),"%Y")
 all_trips$day_of_week<- format(as.Date(all_trips$date),"%A").
 View(all_trips) #this is to see the result of the above code.
 
-* Add a "ride_length" calculation to all_trips (in seconds)
+## Add a "ride_length" calculation to all_trips (in seconds).
 all_trips$ride_length<- difftime(all_trips$ended_at,all_trips$started_at).
 View(all_trips) #this is to see the result of the above code.
 
-*Inspect the structure of the columns
+##Inspect the structure of the columns.
 str(all_trips)
 
-* Convert "ride_length" from Factor to numeric so we can run calculations on the data
+## Convert "ride_length" from Factor to numeric so we can run calculations on the data.
 is.factor(all_trips$ride_length)
 all_trips$ride_length<- as.numeric(as.character(all_trips$ride_length))
 is.numeric(all_trips$ride_length)
 View(all_trips)
 
-* Remove "bad" data
+### Remove "bad" data.
 * The dataframe includes a few hundred entries when bikes were taken out of docks and checked for quality by Divvy or ride_length was negative
 * We will create a new version of the dataframe (v2) since data is being removed
 
 all_trips_v2<- all_trips[!(all_trips$start_station_name=="HQQR"|all_trips$ride_length<0),]
 View(all_trips_v2)
 
-## STEP 4: CONDUCT DESCRIPTIVE ANALYSIS
+## STEP 4: CONDUCT DESCRIPTIVE ANALYSIS.
 *=====================================
 * Descriptive analysis on ride_length (all figures in seconds)
 mean(all_trips_v2$ride_length) #straight average (total ride length / rides)
@@ -135,7 +135,7 @@ min(all_trips_v2$ride_length) #shortest ride
 * use summary() to get the same results.
 summary(all_trips_v2$ride_length)
 
-* Compare members and casual users
+## Compare members and casual users.
 aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=mean)
 aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=median)
 aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=max)
