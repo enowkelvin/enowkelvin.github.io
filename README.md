@@ -1,4 +1,4 @@
-# enowkelvin.github.io
+# kelvin's portfolio
 My personal portfolio showcasing my data analysis projects.
 This project is focused on the Bike company offering services to the public. They have two groups of clients, the subscribers and the casual users.
 The managment wanted to know how the casual users and use their services differently from the subscribers.
@@ -30,13 +30,12 @@ Upload Divvy datasets (csv files) into my R studio
 q1_2019 <- read_csv("Divvy_Trips_2019_Q1.csv")
 q1_2020 <- read_csv("Divvy_Trips_2020_Q1.csv")
 
-STEP 2: WRANGLE DATA AND COMBINE INTO A SINGLE FILE
+#STEP 2: WRANGLE DATA AND COMBINE INTO A SINGLE FILE.
 Compare column names each of the files
-# While the names don't have to be in the same order, they DO need to match perfectly before we can use a command to join them into one file
+*While the names don't have to be in the same order, they DO need to match perfectly before we can use a command to join them into one file
 colnames(q1_2019)
 colnames(q1_2020)
-
-# Rename columns to make them consistent with q1_2020 (as this will be the supposed going-forward table design for Divvy)
+* Rename columns to make them consistent with q1_2020 (as this will be the supposed going-forward table design for Divvy)
 
 (q1_2019<- rename(q1_2019,
                 ride_id=trip_id,
@@ -49,10 +48,10 @@ colnames(q1_2020)
                 nd_station_id=to_station_id,
                 member_casual=usertype))
 View(q1_2019)
-# inspect the two dataframes and look for incongruencies
+* (#inspect the two dataframes and look for incongruencies
 str(q1_2019)
 str(q1_2020)
-#-- we have to convert ride_id and rideable_id into character so that they can fit in nicely into one column
+*(#-- we have to convert ride_id and rideable_id into character so that they can fit in nicely into one column)
 
 q1_2019<- mutate(q1_2019,ride_id=as.character(ride_id),
                  rideable_type=as.character(rideable_type)).
