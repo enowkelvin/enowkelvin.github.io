@@ -26,6 +26,7 @@ library(tidyverse),
 library(conflicted). ###Use the conflicted package to manage conflicts.
 
 ## STEP 1: COLLECT DATA.
+###Data was collected from Divvy datasets.
 Upload Divvy datasets (csv files) into my R studio.
 q1_2019 <- read_csv("Divvy_Trips_2019_Q1.csv").
 q1_2020 <- read_csv("Divvy_Trips_2020_Q1.csv").
@@ -128,25 +129,25 @@ View(all_trips_v2)
 ## STEP 4: CONDUCT DESCRIPTIVE ANALYSIS.
 *=====================================
 * Descriptive analysis on ride_length (all figures in seconds)
-mean(all_trips_v2$ride_length) #straight average (total ride length / rides)
-median(all_trips_v2$ride_length) #midpoint number in the ascending array of ride lengths
-max(all_trips_v2$ride_length) #longest ride
-min(all_trips_v2$ride_length) #shortest ride
-* use summary() to get the same results.
-summary(all_trips_v2$ride_length)
+### mean(all_trips_v2$ride_length). #straight average (total ride length / rides).
+### median(all_trips_v2$ride_length). #midpoint number in the ascending array of ride lengths.
+### max(all_trips_v2$ride_length). #longest ride.
+### min(all_trips_v2$ride_length). #shortest ride.
+### use summary() to get the same results.
+summary(all_trips_v2$ride_length).
 
 ## Compare members and casual users.
-aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=mean)
-aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=median)
-aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=max)
-aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=min)
+### aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=mean).
+### aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=median).
+### aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=max).
+### aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual,FUN=min).
 
 ### See the average ride time by each day for members vs casual users.
 aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual+all_trips_v2$day_of_week,FUN=mean)
 
-* Notice that the days of the week are out of order. Let's fix that.
-all_trips_v2$day_of_week<- ordered(all_trips_v2$day_of_week,level=c("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"))
-View(all_trips_v2$day_of_week)
+### Notice that the days of the week are out of order. Let's fix that.
+all_trips_v2$day_of_week<- ordered(all_trips_v2$day_of_week,level=c("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday").
+View(all_trips_v2$day_of_week).
 ### Now, let's run the average ride time by each day for members vs casual users after adjusting the order of the week days.
 aggregate(all_trips_v2$ride_length~all_trips_v2$member_casual+all_trips_v2$day_of_week,FUN=mean)
 
