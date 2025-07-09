@@ -25,12 +25,12 @@ library(skimr),
 library(tidyverse), 
 library(conflicted). ###Use the conflicted package to manage conflicts.
 
-##STEP 1: COLLECT DATA.
+## STEP 1: COLLECT DATA.
 Upload Divvy datasets (csv files) into my R studio.
 q1_2019 <- read_csv("Divvy_Trips_2019_Q1.csv").
 q1_2020 <- read_csv("Divvy_Trips_2020_Q1.csv").
 
-##STEP 2: WRANGLE DATA AND COMBINE INTO A SINGLE FILE.
+## STEP 2: WRANGLE DATA AND COMBINE INTO A SINGLE FILE.
 Compare column names each of the files.
 While the names don't have to be in the same order, they DO need to match perfectly before we can use a command to join them into one file
 colnames(q1_2019)
@@ -58,25 +58,25 @@ q1_2019<- mutate(q1_2019,ride_id=as.character(ride_id),
 View(q1_2019) #this is to see the result of the above code.
 
 
-## Stack individual quarter's data frames into one big data frame.
+### Stack individual quarter's data frames into one big data frame.
 all_trips<- bind_rows(q1_2019,q1_2020) .
 View(all_trips)#this is to see the result of the above code.
 
-## Remove lat, long, birthyear, and gender fields as this data was dropped beginning in 2020.
+### Remove lat, long, birthyear, and gender fields as this data was dropped beginning in 2020.
 all_trips<- all_trips %>% 
   select(-c(start_lat,start_lng,end_lat,end_lng,birthyear,gender,"tripduration")).
 View(all_trips) #this is to see the result of the above code.
 
 ## STEP 3: CLEAN UP AND ADD DATA TO PREPARE FOR ANALYSIS;
-*(#--Inspect the new table that has been created
-colnames(all_trips)  #List of column names
-nrow(all_trips)  #How many rows are in data frame?
-dim(all_trips)  #Dimensions of the data frame?
-head(all_trips)  #See the first 6 rows of data frame.  Also tail(all_trips)
-str(all_trips)  #See list of columns and data types (numeric, character, etc)
-summary(all_trips)  #Statistical summary of data. Mainly for numerics
+###--Inspect the new table that has been created
+colnames(all_trips)  ###List of column names.
+nrow(all_trips)  ### How many rows are in data frame?
+dim(all_trips)  ### Dimensions of the data frame?
+head(all_trips)  ###See the first 6 rows of data frame.  Also tail(all_trips)
+str(all_trips)  ###See list of columns and data types (numeric, character, etc)
+summary(all_trips)  ###Statistical summary of data. Mainly for numerics
 
-* There are a few problems i needed to fix:
+### There are a few problems i needed to fix:
  (1) In the "member_casual" column, there are two names for members ("member" and "Subscriber") and two names for casual riders ("Customer" and "casual"). We will need to consolidate that from four to two labels.
 (2) The data can only be aggregated at the ride-level, which is too granular. We will want to add some additional columns of data -- such as day, month, year -- that provide additional opportunities to aggregate the data. (3) We will want to add a calculated field for length of ride since the 2020Q1 data did not have the "tripduration" column. We will add "ride_length" to the entire dataframe for consistency.
 (4) There are some rides where tripduration shows up as negative, including several hundred rides where Divvy took bikes out of circulation for Quality Control reasons. We will want to delete these rides.
