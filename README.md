@@ -167,11 +167,13 @@ all_trips_v2 %>%
 
 ### Let's create a visualization for average duration.
 all_trips_v2 %>% 
-  mutate(weekday=wday(started_at,label=TRUE)) %>% 
-  group_by(member_casual,weekday) %>% 
-  summarise(number_of_rides=n(),average_duration=mean(ride_length)) %>% 
-  arrange(member_casual,weekday) %>% 
-  ggplot(aes(x=weekday,y=average_duration, fill=member_casual))+geom_col(position="dodge")
+  mutate(weekday=wday(started_at,label=TRUE)) %>%.
+  group_by(member_casual,weekday) %>%.
+  summarise(number_of_rides=n(),average_duration=mean(ride_length)) %>%.
+  arrange(member_casual,weekday) %>%.
+  ggplot(aes(x=weekday,y=average_duration, fill=member_casual))+geom_col(position="dodge").
+
+  ###(i used (.) to try to seperate the various lines of code for better display and understanding. but do not use it when write this codes.)
 
 
 
