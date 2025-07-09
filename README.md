@@ -9,33 +9,33 @@ Three questions will guide the future marketing program:
  2. Why would casual riders buy Cyclistic annual memberships?
  3. How can Cyclistic use digital media to influence casual riders to become members
 
-The first thing i did was to install and load the packages needed
-install.packages("tidyverse")
-install.packages("lubridate")
-install.packages("ggplot2")
-install.packages("dplyr")
-install.packages("janitor")
-install.packages("skimr")
+The first thing i did was to install and load the packages needed.
+install.packages("tidyverse"),
+install.packages("lubridate"),
+install.packages("ggplot2"),
+install.packages("dplyr"),
+install.packages("janitor"),
+install.packages("skimr").
 
-library(lubridate)
-library(ggplot2)
-library(dplyr)
+library(lubridate),
+library(ggplot2),
+library(dplyr),
 library(janitor)
-library(skimr)
-library(tidyverse) 
-library(conflicted) Use the conflicted package to manage conflicts
+library(skimr),
+library(tidyverse), 
+library(conflicted). ###Use the conflicted package to manage conflicts.
 
-##STEP 1: COLLECT DATA
-Upload Divvy datasets (csv files) into my R studio
-q1_2019 <- read_csv("Divvy_Trips_2019_Q1.csv")
-q1_2020 <- read_csv("Divvy_Trips_2020_Q1.csv")
+##STEP 1: COLLECT DATA.
+Upload Divvy datasets (csv files) into my R studio.
+q1_2019 <- read_csv("Divvy_Trips_2019_Q1.csv").
+q1_2020 <- read_csv("Divvy_Trips_2020_Q1.csv").
 
 ##STEP 2: WRANGLE DATA AND COMBINE INTO A SINGLE FILE.
-Compare column names each of the files
-*While the names don't have to be in the same order, they DO need to match perfectly before we can use a command to join them into one file
+Compare column names each of the files.
+While the names don't have to be in the same order, they DO need to match perfectly before we can use a command to join them into one file
 colnames(q1_2019)
 colnames(q1_2020)
-* Rename columns to make them consistent with q1_2020 (as this will be the supposed going-forward table design for Divvy)
+* Rename columns to make them consistent with q1_2020 (as this will be the supposed going-forward table design for Divvy).
 
 (q1_2019<- rename(q1_2019,
                 ride_id=trip_id,
@@ -46,12 +46,12 @@ colnames(q1_2020)
                 start_station_id=from_station_id,
                 end_station_name=to_station_name,
                 nd_station_id=to_station_id,
-                member_casual=usertype))
-View(q1_2019)
-* (#inspect the two dataframes and look for incongruencies
+                member_casual=usertype)).
+View(q1_2019).
+### inspect the two dataframes and look for incongruencies
 str(q1_2019)
 str(q1_2020)
-#-- we have to convert ride_id and rideable_id into character so that they can fit in nicely into one column)
+### we have to convert ride_id and rideable_id into character so that they can fit in nicely into one column).
 
 q1_2019<- mutate(q1_2019,ride_id=as.character(ride_id),
                  rideable_type=as.character(rideable_type)).
